@@ -1,0 +1,15 @@
+version: "1.0"
+services:
+  mariadb:
+    image: mariadb:10
+    hostname: mariadb
+    volumes:
+      - ./mariadb:/var/lib/mysql
+      - ./schema:/docker-entrypoint-initdb.d
+    ports:
+      - 3307:3306
+    environment:
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
+      - TZ=Asia/Bangkok
+      - MYSQL_ROOT_PASSWORD=1234
+      - "MYSQL_ROOT_HOST=%"

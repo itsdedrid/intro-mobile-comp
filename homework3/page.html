@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mobile Comp Homework 3</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <h2> Page with JS </h2>
+
+        <div>
+            <button type="button" onclick="changeColor()">
+                Toggle Dark Mode
+            </button>
+        </div>
+
+        <br>
+
+        <div>
+            <button type="button" onclick="fetchDate()">
+                Click me to display Date and Time.
+            </button>
+    
+            <p id="demo"></p>
+        </div>
+
+        <br>
+
+        <div class="taxBox">
+            <h3 for="name">โปรแกรมคำนวณภาษี</h3>
+
+            <div id="incomeDiv">
+                <label for="income">รายได้ (บาท):</label>
+                <br>
+                <input type="number" id="income1" class="income-input" oninput="calculateTotalIncome()" placeholder="รายได้ที่ 1">
+                <button type="button" onclick="addTextBox()">+</button>
+                <button type="button" onclick="removeTextBox()">-</button>
+            </div>
+
+            <br>
+
+            <div id="taxDiv">
+                <label for="totalIncome">รายได้รวม (บาท):</label>
+                <br>
+                <input type="number" id="totalIncome" readonly>
+                <br>
+
+                <label for="totalTax">อัตราภาษี (%):</label>
+                <br>
+                <input type="number" id="totalTax" readonly>
+                <br>
+
+                <label for="totalTaxAmount">ภาษีที่ต้องจ่าย (บาท):</label>
+                <br>
+                <input type="number" id="totalTaxAmount" readonly>
+                <br>
+            </div>
+        </div>
+        
+        <script src="script.js"></script>
+    </body>
+</html>

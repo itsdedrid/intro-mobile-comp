@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Sarabun');
+
+body {
+    padding: 25px;
+    background-color: white;
+    color: black;
+    font-family: "Sarabun", sans-serif;
+}
+
+div {
+    font-size: 15px;
+    text-align: left;
+}
+
+.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+.taxBox {
+    width: 20%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
