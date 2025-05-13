@@ -1,196 +1,210 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sidebar } from "../components/Sidebar";
-import MaterialTable from "@material-table/core";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { toast } from "react-hot-toast";
-import DatePickerThai from "../components/DatePickerThai";
-import dayjs from "../dayjsConfig";
 import { jwtDecode } from "jwt-decode";
+import dayjs from "dayjs";
+import "dayjs/locale/th";
+import buddhistEra from "dayjs/plugin/buddhistEra";
+dayjs.extend(buddhistEra);
+dayjs.locale("th");
 
-function Main(props) {
-  
+export default function MainPage() {
   const [cookies] = useCookies(["token"]);
-  const [activities, setActivities] = useState([]);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
-  // Get current user ID from JWT token or from user info endpoint
   const [userId, setUserId] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [newActivity, setNewActivity] = useState({ name: "", whatTime: "" });
+  const navigate = useNavigate();
 
+  // ตรวจสอบ token หมดอายุ
   useEffect(() => {
-    const checkTokenExpiry = () => {
+    const checkToken = () => {
       if (!cookies.token) return;
-
       try {
         const decoded = jwtDecode(cookies.token);
-        const now = Date.now() / 1000;
-        if (decoded.exp < now) {
+        if (decoded.exp < Date.now() / 1000) {
           toast.error("Session หมดอายุแล้ว กรุณาเข้าสู่ระบบใหม่");
           navigate("/login");
         }
       } catch (err) {
-        console.error("Invalid token:", err);
+        toast.error("Token ไม่ถูกต้อง");
         navigate("/login");
       }
     };
-
-    // เช็กทันทีตอน mount
-    checkTokenExpiry();
-
-    // เช็กทุก 10 วินาที
-    const interval = setInterval(checkTokenExpiry, 10000);
-
+    checkToken();
+    const interval = setInterval(checkToken, 10000);
     return () => clearInterval(interval);
   }, [cookies.token, navigate]);
 
+  // โหลดข้อมูลผู้ใช้และกิจกรรม
   useEffect(() => {
-    // First, get the current user info to have access to userId
+    if (!cookies.token) return;
+
     axios
       .get("http://localhost:5555/users/", {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
+        headers: { Authorization: `Bearer ${cookies.token}` },
       })
-      .then((userResponse) => {
-        setUserId(userResponse.data.id);
-
-        // Then fetch activities
-        axios
-          .get("http://localhost:5555/activities", {
-            headers: {
-              Authorization: `Bearer ${cookies.token}`,
-            },
-          })
-          .then((response) => {
-            setActivities(response.data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            if (error.response) {
-              toast.error(error.response.data.message);
-            } else {
-              toast.error("An error occurred while fetching activities");
-            }
-          });
+      .then((res) => {
+        setUserId(res.data.id);
+        return axios.get("http://localhost:5555/activities", {
+          headers: { Authorization: `Bearer ${cookies.token}` },
+        });
       })
-      .catch((error) => {
-        if (error.response) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("Unable to get user information");
-        }
-        // If can't get user info, redirect to login
+      .then((res) => {
+        setActivities(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        toast.error("โหลดข้อมูลไม่สำเร็จ");
         navigate("/login");
       });
   }, [cookies.token, navigate, loading]);
 
-  return (
-    <div>
-      <Sidebar />
-      <div style={{ marginLeft: "200px", padding: "20px" }}>
-        <h1>Main Page</h1>
-        <MaterialTable
-          title="Activities"
-          columns={[
-            { title: "Name", field: "name" },
-            {
-              title: "Date",
-              field: "whatTime",
-              type: "datetime-local",
-              render: (rowData) => dayjs(rowData.whatTime).format("D MMMM BBBB เวลา HH:mm น."),
-              editComponent: (props) => <DatePickerThai value={props.value} onChange={props.onChange} />,
-            },
-          ]}
-          data={activities} // This should be an array, not a function
-          editable={{
-            onRowAdd: async (newData) => {
-              // Include the UserId in the new activity to satisfy the foreign key constraint
-              const activityData = {
-                ...newData,
-                UserId: userId, // This is critical to fix the foreign key error
-              };
+  // เพิ่มกิจกรรม
+  const handleAdd = () => {
+    if (!newActivity.name || !newActivity.whatTime) {
+      toast.error("กรุณากรอกข้อมูลให้ครบ");
+      return;
+    }
 
-              return axios
-                .post("http://localhost:5555/activities", activityData, {
-                  headers: {
-                    Authorization: "Bearer " + cookies.token,
-                  },
-                })
-                .then((response) => {
-                  // Update with the actual returned data from the server
-                  setActivities([...activities, response.data]);
-                  setLoading(true);
-                  toast.success("Activity added successfully");
-                })
-                .catch((error) => {
-                  if (error.response) {
-                    toast.error(`Error: ${error.response.data.message || error.response.statusText}`);
-                  } else {
-                    toast.error("An error occurred while adding the activity");
-                  }
-                  // Rethrow to prevent MaterialTable from updating local state
-                  throw error;
-                });
-            },
-            onRowUpdate: async (newData, oldData) => {
-              return axios
-                .put(
-                  `http://localhost:5555/activities/${oldData.id}`,
-                  { name: newData.name, whatTime: newData.whatTime, UserId: userId },
-                  {
-                    headers: {
-                      Authorization: "Bearer " + cookies.token,
-                    },
-                  }
-                )
-                .then((response) => {
-                  const updatedActivities = activities.map((activity) =>
-                    activity.id === oldData.id ? { ...response.data } : activity
-                  );
-                  setActivities(updatedActivities);
-                  toast.success("Activity updated successfully");
-                })
-                .catch((error) => {
-                  if (error.response) {
-                    toast.error(`Error: ${error.response.data.message || error.response.statusText}`);
-                  } else {
-                    toast.error("An error occurred while updating the activity");
-                  }
-                  throw error;
-                });
-            },
-            onRowDelete: async (oldData) => {
-              return axios
-                .delete(`http://localhost:5555/activities/${oldData.id}`, {
-                  headers: {
-                    Authorization: "Bearer " + cookies.token,
-                  },
-                })
-                .then((response) => {
-                  const filteredActivities = activities.filter((activity) => activity.id !== oldData.id);
-                  setActivities(filteredActivities);
-                  toast.success("Activity deleted successfully");
-                })
-                .catch((error) => {
-                  if (error.response) {
-                    toast.error(`Error: ${error.response.data.message || error.response.statusText}`);
-                  } else {
-                    toast.error("An error occurred while deleting the activity");
-                  }
-                  throw error;
-                });
-            },
-          }}
-          options={{
-            actionsColumnIndex: -1,
-            addRowPosition: "first",
-          }}
+    const activity = { ...newActivity, UserId: userId };
+
+    axios
+      .post("http://localhost:5555/activities", activity, {
+        headers: { Authorization: `Bearer ${cookies.token}` },
+      })
+      .then((res) => {
+        setActivities([...activities, res.data]);
+        setNewActivity({ name: "", whatTime: "" });
+        toast.success("เพิ่มกิจกรรมสำเร็จ");
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message || "เกิดข้อผิดพลาด");
+      });
+  };
+
+  // ลบกิจกรรม
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:5555/activities/${id}`, {
+        headers: { Authorization: `Bearer ${cookies.token}` },
+      })
+      .then(() => {
+        setActivities(activities.filter((a) => a.id !== id));
+        toast.success("ลบกิจกรรมแล้ว");
+      })
+      .catch(() => toast.error("ไม่สามารถลบกิจกรรมได้"));
+  };
+
+  return (
+    <div style={styles.container}>
+      <h1 style={styles.title}>ระบบกิจกรรม</h1>
+
+      <div style={styles.form}>
+        <input
+          style={styles.input}
+          placeholder="ชื่อกิจกรรม"
+          value={newActivity.name}
+          onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })}
         />
+        <input
+          style={styles.input}
+          type="datetime-local"
+          value={newActivity.whatTime}
+          onChange={(e) => setNewActivity({ ...newActivity, whatTime: e.target.value })}
+        />
+        <button style={styles.button} onClick={handleAdd}>
+          เพิ่ม
+        </button>
       </div>
+
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th style={styles.th}>ชื่อกิจกรรม</th>
+            <th style={styles.th}>วันเวลา</th>
+            <th style={styles.th}>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activities.map((activity) => (
+            <tr key={activity.id}>
+              <td style={styles.td}>{activity.name}</td>
+              <td style={styles.td}>
+                {dayjs(activity.whatTime).format("D MMMM BBBB เวลา HH:mm น.")}
+              </td>
+              <td style={styles.td}>
+                <button style={styles.deleteButton} onClick={() => handleDelete(activity.id)}>
+                  ลบ
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
 
-export default Main;
+// ✅ CSS in JS
+const styles = {
+  container: {
+    maxWidth: "800px",
+    margin: "40px auto",
+    padding: "20px",
+    fontFamily: "sans-serif",
+    backgroundColor: "#f9f9f9",
+    borderRadius: "10px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+  },
+  title: {
+    fontSize: "28px",
+    marginBottom: "20px",
+    textAlign: "center",
+    color: "#333",
+  },
+  form: {
+    display: "flex",
+    gap: "10px",
+    marginBottom: "20px",
+  },
+  input: {
+    flex: 1,
+    padding: "8px",
+    fontSize: "16px",
+    borderRadius: "6px",
+    border: "1px solid #ccc",
+  },
+  button: {
+    padding: "8px 16px",
+    fontSize: "16px",
+    borderRadius: "6px",
+    backgroundColor: "#4CAF50",
+    color: "#fff",
+    border: "none",
+    cursor: "pointer",
+  },
+  table: {
+    width: "100%",
+    borderCollapse: "collapse",
+  },
+  th: {
+    backgroundColor: "#333",
+    color: "#fff",
+    padding: "10px",
+  },
+  td: {
+    padding: "10px",
+    borderBottom: "1px solid #ccc",
+  },
+  deleteButton: {
+    padding: "6px 12px",
+    backgroundColor: "#e53935",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
+};
