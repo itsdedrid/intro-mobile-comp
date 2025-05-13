@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
+import  {Sidebar}  from "../components/Sidebar";
 import buddhistEra from "dayjs/plugin/buddhistEra";
 dayjs.extend(buddhistEra);
 dayjs.locale("th");
@@ -43,12 +44,12 @@ export default function MainPage() {
     if (!cookies.token) return;
 
     axios
-      .get("http://localhost:5555/users/", {
+      .get("http://10.203.233.120:5555/users/", {
         headers: { Authorization: `Bearer ${cookies.token}` },
       })
       .then((res) => {
         setUserId(res.data.id);
-        return axios.get("http://localhost:5555/activities", {
+        return axios.get("http://10.203.233.120:5555/activities", {
           headers: { Authorization: `Bearer ${cookies.token}` },
         });
       })
@@ -60,7 +61,7 @@ export default function MainPage() {
         toast.error("โหลดข้อมูลไม่สำเร็จ");
         navigate("/login");
       });
-  }, [cookies.token, navigate, loading]);
+  }, [cookies.token, navigate, loading,newActivity]);
 
   // เพิ่มกิจกรรม
   const handleAdd = () => {
@@ -72,7 +73,7 @@ export default function MainPage() {
     const activity = { ...newActivity, UserId: userId };
 
     axios
-      .post("http://localhost:5555/activities", activity, {
+      .post("http://10.203.233.120:5555/activities", activity, {
         headers: { Authorization: `Bearer ${cookies.token}` },
       })
       .then((res) => {
@@ -88,7 +89,7 @@ export default function MainPage() {
   // ลบกิจกรรม
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:5555/activities/${id}`, {
+      .delete(`http://10.203.233.120:5555/activities/${id}`, {
         headers: { Authorization: `Bearer ${cookies.token}` },
       })
       .then(() => {
@@ -99,6 +100,8 @@ export default function MainPage() {
   };
 
   return (
+    <>
+    <Sidebar/>
     <div style={styles.container}>
       <h1 style={styles.title}>ระบบกิจกรรม</h1>
 
@@ -145,6 +148,7 @@ export default function MainPage() {
         </tbody>
       </table>
     </div>
+    </>
   );
 }
 

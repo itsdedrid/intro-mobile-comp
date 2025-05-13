@@ -6,7 +6,7 @@ import axios from "axios";
 
 function submit(username, password, setCookie, navigate) {
   axios
-    .post("http://localhost:5555/tokens/login", {
+    .post("http://10.203.233.120:5555/tokens/login", {
       NationalId: username,
       Password: password,
     })
@@ -85,7 +85,7 @@ function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>Roo Mhen (รูเหม็น)</h1>
+        <h1 style={styles.title}>To do web</h1>
 
         <input
           type="text"

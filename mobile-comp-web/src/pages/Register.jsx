@@ -16,7 +16,7 @@ function PasswordInput({ label, password, setPassword }) {
         onChange={(e) => setPassword(e.target.value)}
         style={{
           width: "100%",
-          padding: "10px px 10px 10px",
+          padding: "10px 10px 10px 10px",
           borderRadius: "5px",
           border: "1px solid #ccc",
           fontSize: "16px",
@@ -70,7 +70,7 @@ function Register() {
       return;
     }
     axios
-      .post("http://localhost:5555/users/register", {
+      .post("http://10.203.233.120:5555/users/register", {
         NationalId: username,
         Password: password,
         Title: title,

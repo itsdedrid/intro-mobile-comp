@@ -13,10 +13,10 @@ function Credit(props) {
                 <div style={styles.creditContainer}>
                     <div style={styles.creditInfo}>
                         <p style={styles.creditText}>
-                            จิรพิชญ์ แสงพลาย <span style={styles.idText}>6434413323</span>
+                            เดชฤทธิ์ อารยะกิตติพงศ์ <span style={styles.idText}>6434426523</span>
                         </p>
                         <p style={styles.creditText}>
-                            พีรวิชญ์ ศรีสันต์ <span style={styles.idText}>6434463723</span>
+                            พัชรพล โซ๊ะเฮง <span style={styles.idText}>6434455723</span>
                         </p>
                     </div>
                 </div>
