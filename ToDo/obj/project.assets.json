@@ -43,11 +43,11 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
-      "Microsoft.EntityFrameworkCore/6.0.15": {
+      "Microsoft.EntityFrameworkCore/6.0.28": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.15",
-          "Microsoft.EntityFrameworkCore.Analyzers": "6.0.15",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.28",
+          "Microsoft.EntityFrameworkCore.Analyzers": "6.0.28",
           "Microsoft.Extensions.Caching.Memory": "6.0.1",
           "Microsoft.Extensions.DependencyInjection": "6.0.1",
           "Microsoft.Extensions.Logging": "6.0.0",
@@ -68,7 +68,7 @@
           "buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/6.0.15": {
+      "Microsoft.EntityFrameworkCore.Abstractions/6.0.28": {
         "type": "package",
         "compile": {
           "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
@@ -81,7 +81,7 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/6.0.15": {
+      "Microsoft.EntityFrameworkCore.Analyzers/6.0.28": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/_._": {}
@@ -110,10 +110,10 @@
           "build/net6.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/6.0.15": {
+      "Microsoft.EntityFrameworkCore.Relational/6.0.28": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.15",
+          "Microsoft.EntityFrameworkCore": "6.0.28",
           "Microsoft.Extensions.Configuration.Abstractions": "6.0.0"
         },
         "compile": {
@@ -455,11 +455,11 @@
           }
         }
       },
-      "Pomelo.EntityFrameworkCore.MySql/6.0.2": {
+      "Pomelo.EntityFrameworkCore.MySql/6.0.3": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "[6.0.7, 7.0.0)",
-          "Microsoft.Extensions.DependencyInjection": "6.0.0",
+          "Microsoft.EntityFrameworkCore.Relational": "[6.0.28, 6.0.999]",
+          "Microsoft.Extensions.DependencyInjection": "6.0.1",
           "MySqlConnector": "2.1.2"
         },
         "compile": {
@@ -777,10 +777,10 @@
         "version.txt"
       ]
     },
-    "Microsoft.EntityFrameworkCore/6.0.15": {
-      "sha512": "o51dv+X1Fv1/oPCWtCED4tTov4aBWD59ebkY5BW5K/8hwu+X+AfWpN1/bCBuS/3OPW24RuZmGfigByRMlG/fIA==",
+    "Microsoft.EntityFrameworkCore/6.0.28": {
+      "sha512": "B0/OgYIf4Jy+ZXxU1tQ29m235K63h6wadL9lnUPN7lFAeJRrwNXynFFAGDibgUjJvimZvbGxtF+AiJaODoRrig==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/6.0.15",
+      "path": "microsoft.entityframeworkcore/6.0.28",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -788,35 +788,35 @@
         "buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props",
         "lib/net6.0/Microsoft.EntityFrameworkCore.dll",
         "lib/net6.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.6.0.15.nupkg.sha512",
+        "microsoft.entityframeworkcore.6.0.28.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/6.0.15": {
-      "sha512": "seE5q7/0R1LmWiQcd5pZYzlY8WdVojv2tk+5o0p4HrEvliOysomjIOYVEEHJnK9NwXqHBcZra4b+RwzgWYdbzA==",
+    "Microsoft.EntityFrameworkCore.Abstractions/6.0.28": {
+      "sha512": "qLfDuiCvcoIY7IWbXuHCqILYyzV2rXcAh1tnkmYxA5ZfJq0wHIZrRoYP7LNJZttpq5cFyWRK5X6R2tP/M4M+Lw==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/6.0.15",
+      "path": "microsoft.entityframeworkcore.abstractions/6.0.28",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.6.0.15.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.6.0.28.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/6.0.15": {
-      "sha512": "0ZKFq5irkVVyPJmQDorRsWxXy85wKm+UPO8J6pf2h1ggGl1CkhlXa+bteM8NBo++Cfylv8cBSo8ZfQZHV57fIg==",
+    "Microsoft.EntityFrameworkCore.Analyzers/6.0.28": {
+      "sha512": "9Y6RC2WMVvNGkhUEcxQGTpYgoebuoIm63acQYEzFVqxZeN9el47aXnypW5JJW3L7/tBkGMvDcQ8hG4t+SJmpHg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/6.0.15",
+      "path": "microsoft.entityframeworkcore.analyzers/6.0.28",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "lib/netstandard2.0/_._",
-        "microsoft.entityframeworkcore.analyzers.6.0.15.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.6.0.28.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
@@ -835,17 +835,17 @@
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Relational/6.0.15": {
-      "sha512": "ouk4es/CzwxjXl33mb2hJzitluc2CD9rujZVBaUy3w3fn8qMjlktMOhf5mIAS7e3sreBikOBwaxp9/y/N/O2NQ==",
+    "Microsoft.EntityFrameworkCore.Relational/6.0.28": {
+      "sha512": "4cM9VUrIOAX/JpHjKDJLVRxmhKHgfcdCwEzLcGCfMWNKaALfQL29wyyNE+OOCC7pqwfcwC0VIZvFa/W0K07K6A==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.relational/6.0.15",
+      "path": "microsoft.entityframeworkcore.relational/6.0.28",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Relational.dll",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Relational.xml",
-        "microsoft.entityframeworkcore.relational.6.0.15.nupkg.sha512",
+        "microsoft.entityframeworkcore.relational.6.0.28.nupkg.sha512",
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
@@ -1550,17 +1550,17 @@
         "packageIcon.png"
       ]
     },
-    "Pomelo.EntityFrameworkCore.MySql/6.0.2": {
-      "sha512": "KvlZ800CnEuEGnxj5OT1fCKGjQXxW5kpPlCP91JqBYG+2Z3927eqXmlX6LLKUt4swqE8ZsEQ+Zkpab8bqstf4g==",
+    "Pomelo.EntityFrameworkCore.MySql/6.0.3": {
+      "sha512": "jEa462J9uNlmpX7qLXpJVOInonwF6E0bFbij6hboTsQJK7thfazh8xwF8fe79kUrp4+6e5A13KT5aLBIkt7RTg==",
       "type": "package",
-      "path": "pomelo.entityframeworkcore.mysql/6.0.2",
+      "path": "pomelo.entityframeworkcore.mysql/6.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "icon.png",
         "lib/net6.0/Pomelo.EntityFrameworkCore.MySql.dll",
         "lib/net6.0/Pomelo.EntityFrameworkCore.MySql.xml",
-        "pomelo.entityframeworkcore.mysql.6.0.2.nupkg.sha512",
+        "pomelo.entityframeworkcore.mysql.6.0.3.nupkg.sha512",
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
@@ -2025,7 +2025,7 @@
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.36",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.15",
       "Newtonsoft.Json >= 13.0.3",
-      "Pomelo.EntityFrameworkCore.MySql >= 6.0.2",
+      "Pomelo.EntityFrameworkCore.MySql >= 6.0.3",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "System.IdentityModel.Tokens.Jwt >= 6.35.0"
     ]
@@ -2083,7 +2083,7 @@
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
-            "version": "[6.0.2, )"
+            "version": "[6.0.3, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

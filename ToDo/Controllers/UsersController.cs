@@ -40,6 +40,7 @@ public class UsersController : ControllerBase
     public IActionResult Post([FromBody] DTOs.Register data)
     {
         var db = new ToDoDbContext();
+
         var user = new Models.User
         {
             NationalId = data.NationalId ?? "1234567890123",

@@ -50,7 +50,7 @@ public class TokensController : ControllerBase
         );
 
         desc.NotBefore = DateTime.UtcNow;
-        desc.Expires = DateTime.UtcNow.AddHours(3);
+        desc.Expires = DateTime.UtcNow.AddMinutes(1);
         desc.IssuedAt = DateTime.UtcNow;
         desc.Issuer = "ToDoApp";
         desc.Audience = "public";
