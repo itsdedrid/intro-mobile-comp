@@ -17,6 +17,8 @@ export default function MainPage() {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newActivity, setNewActivity] = useState({ name: "", whatTime: "" });
+  const [editActivity, setEditActivity] = useState(null);
+
   const navigate = useNavigate();
 
   // ตรวจสอบ token หมดอายุ
@@ -99,6 +101,48 @@ export default function MainPage() {
       .catch(() => toast.error("ไม่สามารถลบกิจกรรมได้"));
   };
 
+  const handleEdit = (activity) => {
+    setEditActivity(activity);
+    setNewActivity({
+      name: activity.name,
+      whatTime: activity.whatTime.slice(0, 16),
+    });
+  };
+  
+
+  const handleSaveEdit = () => {
+    if (!newActivity.name || !newActivity.whatTime) {
+      toast.error("กรุณากรอกข้อมูลให้ครบ");
+      return;
+    }
+  
+    axios
+      .put(
+        `http://10.203.233.120:5555/activities/${editActivity.id}`,
+        {
+          name: newActivity.name,
+          whatTime: newActivity.whatTime,
+          UserId: userId,
+        },
+        {
+          headers: { Authorization: `Bearer ${cookies.token}` },
+        }
+      )
+      .then((res) => {
+        setActivities(
+          activities.map((a) => (a.id === editActivity.id ? res.data : a))
+        );
+        setNewActivity({ name: "", whatTime: "" });
+        setEditActivity(null);
+        toast.success("แก้ไขกิจกรรมสำเร็จ");
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message || "เกิดข้อผิดพลาด");
+      });
+  };
+  
+  
+
   return (
     <>
     <Sidebar/>
@@ -139,6 +183,9 @@ export default function MainPage() {
                 {dayjs(activity.whatTime).format("D MMMM BBBB เวลา HH:mm น.")}
               </td>
               <td style={styles.td}>
+              <button style={styles.editButton} onClick={() => handleEdit(activity)}>
+                  แก้ไข
+                </button>
                 <button style={styles.deleteButton} onClick={() => handleDelete(activity.id)}>
                   ลบ
                 </button>
@@ -148,6 +195,40 @@ export default function MainPage() {
         </tbody>
       </table>
     </div>
+    {editActivity && (
+  <div style={styles.modalOverlay}>
+    <div style={styles.modalContent}>
+      <h2>แก้ไขกิจกรรม</h2>
+      <input
+        style={styles.input}
+        placeholder="ชื่อกิจกรรม"
+        value={newActivity.name}
+        onChange={(e) => setNewActivity({ ...newActivity, name: e.target.value })}
+      />
+      <input
+        style={styles.input}
+        type="datetime-local"
+        value={newActivity.whatTime}
+        onChange={(e) => setNewActivity({ ...newActivity, whatTime: e.target.value })}
+      />
+      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+        <button style={styles.button} onClick={handleSaveEdit}>
+          บันทึก
+        </button>
+        <button
+          style={{ ...styles.button, backgroundColor: "red" }}
+          onClick={() => {
+            setEditActivity(null);
+            setNewActivity({ name: "", whatTime: "" });
+          }}
+        >
+          ยกเลิก
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 }
@@ -211,4 +292,37 @@ const styles = {
     borderRadius: "6px",
     cursor: "pointer",
   },
+  modalOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",       // ✅ เลื่อน modal ไปด้านบน
+    paddingTop: "80px",             // ✅ ระยะห่างจากด้านบน
+    zIndex: 1000,
+  },
+  
+  modalContent: {
+  backgroundColor: "#fff",
+  padding: "30px",
+  borderRadius: "12px",
+  width: "90%",         // ✅ ใช้พื้นที่กว้างขึ้นในหน้าจอ
+  maxWidth: "750px",    // ✅ หรือมากกว่านี้ถ้าต้องการ
+  boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+},
+
+  editButton: {
+    padding: "6px 12px",
+    backgroundColor: "#2196F3", // สีฟ้า
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    marginRight: "8px", // ให้เว้นระยะห่างจากปุ่มลบ
+  },
+  
 };
