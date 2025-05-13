@@ -100,12 +100,14 @@ const Main = () => {
                                         setEditActivity(activity);
                                         setVisible(true);
                                     }}
+                                    color="#8D6E63" // ใช้สีเขียว
                                 />
                             </DataTable.Cell>
                             <DataTable.Cell>
                                 <Button
                                     title="Delete"
                                     onPress={() => handleDelete(activity.id)}
+                                    color="#D32F2F" // สีแดงสำหรับปุ่ม Delete
                                 />
                             </DataTable.Cell>
                         </DataTable.Row>
@@ -122,7 +124,7 @@ const Main = () => {
                 }}
             />
 
-            <Button title="Back to Home" onPress={() => navigation.goBack()} />
+            <Button title="Back to Home" onPress={() => navigation.goBack()} color="#4CAF50" />
 
             <Modal visible={visible} animationType="slide" onRequestClose={() => setVisible(false)}>
                 <ScrollView contentContainerStyle={styles.modal}>
@@ -147,6 +149,7 @@ const Main = () => {
                             }
                             handleSubmit();
                         }}
+                        color="#4CAF50" // ใช้สีเขียวสำหรับปุ่ม Create หรือ Update
                     />
                     <View style={{ marginTop: 10 }}>
                         <Button title="Cancel" onPress={() => setVisible(false)} color="grey" />
@@ -160,29 +163,32 @@ const Main = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#F1F8E9", // สีพื้นหลังเขียวอ่อน
     },
     title: {
         fontSize: 24,
         marginVertical: 20,
         textAlign: "center",
+        color: "#388E3C", // สีเขียวเข้ม
     },
     input: {
         borderWidth: 1,
-        borderColor: "#ccc",
+        borderColor: "#8D6E63", // น้ำตาล
         padding: 10,
         borderRadius: 5,
         marginBottom: 10,
+        backgroundColor: "#FFF3E0", // น้ำตาลอ่อน
     },
     modal: {
         padding: 20,
-        backgroundColor: "white",
+        backgroundColor: "#ffffff",
         flexGrow: 1,
     },
     fab: {
         position: "absolute",
         right: 16,
         bottom: 80,
-        backgroundColor: "#24a0ed",
+        backgroundColor: "#FFF3E0", // สีส้มสดใส
     },
 });
 

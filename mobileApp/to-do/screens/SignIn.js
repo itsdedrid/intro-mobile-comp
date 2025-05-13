@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Button, Alert, TextInput } from "react-native";
+import { StyleSheet, Text, View, Alert, TextInput, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
@@ -40,6 +40,7 @@ const SignIn = () => {
                 value={nationalId}
                 onChangeText={setNationalId}
                 keyboardType="number-pad"
+                placeholderTextColor="#7D7D7D"
             />
             <TextInput
                 style={styles.input}
@@ -47,10 +48,11 @@ const SignIn = () => {
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
+                placeholderTextColor="#7D7D7D"
             />
-            <View style={styles.buttonContainer}>
-                <Button title="เข้าสู่ระบบ" onPress={handleLogin} color="#007bff" />
-            </View>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>เข้าสู่ระบบ</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -59,25 +61,47 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
-        paddingHorizontal: 20,
-        backgroundColor: "#fff",
+        paddingHorizontal: 24,
+        backgroundColor: "#f0f4f1", // พื้นหลังเขียวอ่อนที่สดใส
     },
     title: {
-        fontSize: 26,
+        fontSize: 28,
         fontWeight: "bold",
         textAlign: "center",
-        marginBottom: 24,
+        marginBottom: 32,
+        color: "#5D4037", // น้ำตาลอ่อน
+
     },
     input: {
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 6,
-        padding: 12,
-        marginBottom: 16,
+        borderWidth: 1.5,
+        borderColor: "#8D6E63", // น้ำตาลกลางที่ดูสดใส
+        borderRadius: 10,
+        padding: 14,
+        marginBottom: 20,
         fontSize: 16,
+        backgroundColor: "#ffffff",
+        color: "#333",
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 4,
+        elevation: 2,
     },
-    buttonContainer: {
-        marginTop: 10,
+    button: {
+        backgroundColor: "#4CAF50", // เขียวอ่อนสดใส
+        paddingVertical: 14,
+        borderRadius: 10,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 6,
+        elevation: 3,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 18,
+        fontWeight: "600",
     },
 });
 

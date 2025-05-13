@@ -293,19 +293,19 @@ const styles = {
     cursor: "pointer",
   },
   modalOverlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",       // ✅ เลื่อน modal ไปด้านบน
-    paddingTop: "80px",             // ✅ ระยะห่างจากด้านบน
-    zIndex: 1000,
-  },
-  
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "100vh",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",       // ✅ เลื่อน modal ไปด้านบน
+  paddingTop: "80px",             // ✅ ระยะห่างจากด้านบน
+  zIndex: 1000,
+},
+
   modalContent: {
   backgroundColor: "#fff",
   padding: "30px",
